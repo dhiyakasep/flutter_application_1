@@ -16,7 +16,7 @@ class MainApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple)
       ),
       debugShowCheckedModeBanner: false,
-      home: loginPage()
+      home: LoginPage()
     );
   }
 }

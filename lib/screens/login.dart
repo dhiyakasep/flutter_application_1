@@ -1,113 +1,159 @@
 import 'package:dhiya12rpl1_app/screens/home.dart';
 import 'package:flutter/material.dart';
 
-class loginPage extends StatefulWidget {
-  const loginPage({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
   @override
-  State<loginPage> createState() => _loginPageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _loginPageState extends State<loginPage> {
+class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  bool _isPassword = false; 
+  bool _isPasswordVisible = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Center(
         child: Card(
-          elevation: 8,
+          elevation: 12,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
           child: Container(
-            padding: const EdgeInsets.all(32.0),
-            constraints: const BoxConstraints(
-              maxWidth: 350,
-            ),
-            child: Form(key: _formKey, child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const FlutterLogo(size: 100),
-                  SizedBox(height: 10,),
-                  Text("Selamat Datang Di Aplikasi Flutter!",
-                  style: Theme.of(context,).textTheme.titleMedium,
-                  ),
-                  const SizedBox(height: 8,),
-                  TextFormField(
-                    decoration: const InputDecoration(
-                      labelText: 'Email',
-                      hintText: 'Masukan Email',
-                      prefixIcon: Icon(
-                        Icons.email_outlined,
+            padding: const EdgeInsets.all(36),
+            constraints: const BoxConstraints(maxWidth: 400),
+            child: Form(
+              key: _formKey,
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        color: Colors.indigo.shade50,
+                        borderRadius: BorderRadius.circular(80),
                       ),
-                      border: OutlineInputBorder(),
-                    ),
-                    validator: (value){
-                      if(value == null || value.isEmpty){
-                        return 'Email Tidak Boleh Kosong';
-                      }
-                      final emailRegex = r'^[a-zA-Z0-9. %+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';
-                      final emailValid = RegExp(emailRegex).hasMatch(value);
-                      if(!emailValid){
-                        return 'Format email tidak valid';
-                      }
-                      return null;
-                    },
-                  ),
-
-                  SizedBox(height: 10,),
-
-                  TextFormField(
-                    obscureText: !_isPassword,
-
-                    decoration: InputDecoration(
-                      labelText: 'Kata Sandi',
-                      hintText: 'Masukan Kata Sandi',
-                      prefixIcon: const Icon(Icons.lock_clock_rounded),
-                      border: const OutlineInputBorder(),
-                      suffixIcon: IconButton(icon: Icon( _isPassword ? Icons.visibility_off : Icons.visibility,), onPressed: () { 
-                        setState(() {
-                          _isPassword = !_isPassword;
-                        });
-                       },
-                       ),
-                    ),
-                    validator: (value){
-                      if(value == null || value.isEmpty){
-                        return 'Kata sandi tidak boleh kosong';
-                      }
-                      if(value.length < 6){
-                        return 'Kata sandi minimal 6 karakter';
-                      }
-                      return null;
-                    },
-                  ),
-                  SizedBox(height: 10,),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(4,),
+                      child: Icon(
+                        Icons.account_balance_wallet_rounded,
+                        size: 72,
+                        color: Colors.indigo.shade700,
                       ),
-                    ), onPressed: (){
-                      if(_formKey.currentState?.validate() ?? false){
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const homePage(),
+                    ),
+                    const SizedBox(height: 24),
+                    Text(
+                      "Selamat Datang di WargaPay",
+                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                            color: Colors.indigo.shade900,
+                            fontWeight: FontWeight.bold,
+                          ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      "Masuk untuk mengelola kas warga dengan mudah dan aman.",
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            color: Colors.grey.shade700,
+                          ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 32),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        labelText: 'Email',
+                        hintText: 'Masukan email Anda',
+                        prefixIcon: Icon(Icons.email_outlined, color: Colors.indigo.shade700),
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(16),
+                          borderSide: BorderSide(color: Colors.indigo.shade400),
                         ),
-                        );
-                      }
-                    }, child: const Padding(padding: EdgeInsets.all(10.0),
-                    child: Text("Masuk",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      ),
+                      keyboardType: TextInputType.emailAddress,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Email tidak boleh kosong';
+                        }
+                        final emailRegex =
+                            r'^[a-zA-Z0-9.%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';
+                        final emailValid = RegExp(emailRegex).hasMatch(value);
+                        if (!emailValid) {
+                          return 'Format email tidak valid';
+                        }
+                        return null;
+                      },
                     ),
+                    const SizedBox(height: 24),
+                    TextFormField(
+                      obscureText: !_isPasswordVisible,
+                      decoration: InputDecoration(
+                        labelText: 'Kata Sandi',
+                        hintText: 'Masukan kata sandi Anda',
+                        prefixIcon: Icon(Icons.lock_outline, color: Colors.indigo.shade700),
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(16),
+                          borderSide: BorderSide(color: Colors.indigo.shade400),
+                        ),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _isPasswordVisible ? Icons.visibility_off : Icons.visibility,
+                            color: Colors.indigo.shade700,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _isPasswordVisible = !_isPasswordVisible;
+                            });
+                          },
+                        ),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Kata sandi tidak boleh kosong';
+                        }
+                        if (value.length < 6) {
+                          return 'Kata sandi minimal 6 karakter';
+                        }
+                        return null;
+                      },
                     ),
-                    ),),
-                  )
-                ],
+                    const SizedBox(height: 36),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 52,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if (_formKey.currentState?.validate() ?? false) {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(builder: (context) => const homePage()),
+                            );
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.indigo.shade700,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          elevation: 8,
+                          shadowColor: Colors.indigo.shade200,
+                        ),
+                        child: const Text(
+                          'Masuk',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 1,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),),
+            ),
           ),
         ),
       ),
